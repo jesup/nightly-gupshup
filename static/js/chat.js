@@ -76,47 +76,42 @@ function acceptCall(offer) {
   document.getElementById("main").style.display = "none";
   document.getElementById("call").style.display = "block";
 
-  navigator.mozGetUserMedia({video:true}, function(vs) {
+  navigator.mozGetUserMedia({video:true, audio:true}, function(vs) {
     document.getElementById("localvideo").mozSrcObject = vs;
     document.getElementById("localvideo").play();
 
-    navigator.mozGetUserMedia({audio:true}, function(as) {
-      document.getElementById("localaudio").mozSrcObject = as;
-      document.getElementById("localaudio").play();
+    var pc = new mozRTCPeerConnection();
+    pc.addStream(vs);
+    pc.addStream(as);
 
-      var pc = new mozRTCPeerConnection();
-      pc.addStream(vs);
-      pc.addStream(as);
+    pc.onaddstream = function(obj) {
+      log("Got onaddstream of type " + obj.type);
+      if (obj.type == "video") {
+        document.getElementById("remotevideo").mozSrcObject = obj.stream;
+        document.getElementById("remotevideo").play();
+      } else {
+        document.getElementById("remoteaudio").mozSrcObject = obj.stream;
+        document.getElementById("remoteaudio").play();
+      }
+      document.getElementById("dialing").style.display = "none";
+      document.getElementById("hangup").style.display = "block";
+    };
 
-      pc.onaddstream = function(obj) {
-        log("Got onaddstream of type " + obj.type);
-        if (obj.type == "video") {
-          document.getElementById("remotevideo").mozSrcObject = obj.stream;
-          document.getElementById("remotevideo").play();
-        } else {
-          document.getElementById("remoteaudio").mozSrcObject = obj.stream;
-          document.getElementById("remoteaudio").play();
-        }
-        document.getElementById("dialing").style.display = "none";
-        document.getElementById("hangup").style.display = "block";
-      };
-
-      pc.setRemoteDescription(JSON.parse(offer.offer), function() {
-        log("setRemoteDescription, creating answer");
-        pc.createAnswer(function(answer) {
-          pc.setLocalDescription(answer, function() {
-            // Send answer to remote end.
-            log("created Answer and setLocalDescription " + JSON.stringify(answer));
-            peerc = pc;
-            jQuery.post(
-              "answer", {
-                to: offer.from,
-                from: offer.to,
-                answer: JSON.stringify(answer)
-              },
-              function() { console.log("Answer sent!"); }
-            ).error(error);
-          }, error);
+    pc.setRemoteDescription(JSON.parse(offer.offer), function() {
+      log("setRemoteDescription, creating answer");
+      pc.createAnswer(function(answer) {
+        pc.setLocalDescription(answer, function() {
+          // Send answer to remote end.
+          log("created Answer and setLocalDescription " + JSON.stringify(answer));
+          peerc = pc;
+          jQuery.post(
+            "answer", {
+              to: offer.from,
+              from: offer.to,
+              answer: JSON.stringify(answer)
+            },
+            function() { console.log("Answer sent!"); }
+          ).error(error);
         }, error);
       }, error);
     }, error);
@@ -127,46 +122,41 @@ function initiateCall(user) {
   document.getElementById("main").style.display = "none";
   document.getElementById("call").style.display = "block";
 
-  navigator.mozGetUserMedia({video:true}, function(vs) {
+  navigator.mozGetUserMedia({video:true, audio:true}, function(vs) {
     document.getElementById("localvideo").mozSrcObject = vs;
     document.getElementById("localvideo").play();
 
-    navigator.mozGetUserMedia({audio:true}, function(as) {
-      document.getElementById("localaudio").mozSrcObject = as;
-      document.getElementById("localaudio").play();
+    var pc = new mozRTCPeerConnection();
+    pc.addStream(vs);
+    pc.addStream(as);
 
-      var pc = new mozRTCPeerConnection();
-      pc.addStream(vs);
-      pc.addStream(as);
+    pc.onaddstream = function(obj) {
+      log("Got onaddstream of type " + obj.type);
+      if (obj.type == "video") {
+        document.getElementById("remotevideo").mozSrcObject = obj.stream;
+        document.getElementById("remotevideo").play();
+      } else {
+        document.getElementById("remoteaudio").mozSrcObject = obj.stream;
+        document.getElementById("remoteaudio").play();
+      }
+      document.getElementById("dialing").style.display = "none";
+      document.getElementById("hangup").style.display = "block";
+    };
 
-      pc.onaddstream = function(obj) {
-        log("Got onaddstream of type " + obj.type);
-        if (obj.type == "video") {
-          document.getElementById("remotevideo").mozSrcObject = obj.stream;
-          document.getElementById("remotevideo").play();
-        } else {
-          document.getElementById("remoteaudio").mozSrcObject = obj.stream;
-          document.getElementById("remoteaudio").play();
-        }
-        document.getElementById("dialing").style.display = "none";
-        document.getElementById("hangup").style.display = "block";
-      };
-
-      pc.createOffer(function(offer) {
-        log("Created offer" + JSON.stringify(offer));
-        pc.setLocalDescription(offer, function() {
-          // Send offer to remote end.
-          log("setLocalDescription, sending to remote");
-          peerc = pc;
-          jQuery.post(
-            "offer", {
-              to: user,
-              from: document.getElementById("user").innerHTML,
-              offer: JSON.stringify(offer)
-            },
-            function() { console.log("Offer sent!"); }
-          ).error(error);
-        }, error);
+    pc.createOffer(function(offer) {
+      log("Created offer" + JSON.stringify(offer));
+      pc.setLocalDescription(offer, function() {
+        // Send offer to remote end.
+        log("setLocalDescription, sending to remote");
+        peerc = pc;
+        jQuery.post(
+          "offer", {
+            to: user,
+            from: document.getElementById("user").innerHTML,
+            offer: JSON.stringify(offer)
+          },
+          function() { console.log("Offer sent!"); }
+        ).error(error);
       }, error);
     }, error);
   }, error);
