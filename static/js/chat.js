@@ -162,6 +162,7 @@ function endCall() {
   document.getElementById("localvideo").mozSrcObject = null;
   document.getElementById("remotevideo").mozSrcObject = null;
 
+  pc = null;
   peerc = null;
 }
 
