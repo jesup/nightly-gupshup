@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Gupshup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A WebRTC Demo">
+    <meta name="author" content="Anant Narayanan">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- For IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+
+    <div id="main" class="container">
+
+      <div class="span4">
+        <h3>Welcome <span id="user"><%= user %></span>!</h3>
+        <p>Click on any online user to initiate a chat.</p>
+      </div>
+
+      <br/>
+
+      <div class="span2 well" id="users">
+      </div>
+
+      <div class="modal" id="incomingCall" tabindex="-1" role="dialog"
+           aria-labelledby="incomingCall" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3>Incoming Call</h3>
+        </div>
+        <div class="modal-body">
+          <img src="img/incoming.png"/><br/><p>&nbsp;</p>
+          <p>You have an incoming call from <span id="incomingUser"></span></p>
+          <audio id="incomingRing" src="http://localhost/ring.ogg" loop/>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Reject</button>
+          <button id="incomingAccept" class="btn btn-primary">Accept</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="call" class="container" style="display: none;">
+      <span id="dialing">
+        <img src="img/loading.gif"/>
+        <b>Dialing...</b>
+      </span>
+      <span id="hangup" style="display: none;">
+        <a class="btn btn-danger" onclick="endCall();">Hang Up</a>
+      </span>
+      <span>
+        <h3>Remote</h3>
+        <video width="640" height="480" id="remotevideo" controls/>
+        <audio id="remoteaudio"/>
+      </span>
+      <span>
+        <h3>Local</h3>
+        <video width="320" height="240" id="localvideo" controls/>
+        <audio id="localaudio" muted/>
+      </span>
+    </div>
+
+    <div class="container">
+      <button type="button" class="btn btn-warning" data-toggle="collapse"
+        data-target="#debug">Hide Debug</button>
+      <br/>
+      <pre id="debug" class="collapse in"></pre>
+    </div>
+
+    <script src="https://login.persona.org/include.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/chat.js"></script>
+  </body>
+</html>

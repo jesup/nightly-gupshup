@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Gupshup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A WebRTC Demo">
+    <meta name="author" content="Anant Narayanan">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- For IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <% if (message) { %>
+        <div class="alert alert-block alert-error">
+          <h4 class="alert-heading"><%= message %></h4>
+        </div>
+      <% } %>
+
+      <div class="hero-unit">
+        <h1>[ˈɡʌpʃʌp] n.,</h1>
+        <p>A quick and easy way to chit chat across browsers!</p>
+        <div id="loading" style="display:none;">
+          <img src="img/loading.gif"/>
+        </div>
+        <div id="login-box" style="display:none;">
+          <p>
+            <% if (!offline) { %>
+              <a href="#" onclick="navigator.id.request();">
+                <img src="img/sign-in.png"/>
+              </a>
+            <% } else { %>
+              <div class="input-append">
+                <input class="span2" id="email"type="text">
+                <button class="btn" type="button"
+                onclick="doLogin(document.getElementById('email').value);">Sign in</button>
+              </div>
+            <% } %>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="https://login.persona.org/include.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/login.js"></script>
+  </body>
+</html>
