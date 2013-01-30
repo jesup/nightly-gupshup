@@ -1,11 +1,9 @@
 Gupshup
 =======
 
-A simple WebRTC demo. Gupshup means chit-chat in Hindi!
+A simple WebRTC demo. Cloned from Gupshup to provide a
+Firefox Aurora 20-compatible version, as API changes
+currently in Nightly (Firefox 21) are incompatible with Aurora.
 
 <pre>
-  $ git clone https://github.com/anantn/gupshup.git
-  $ cd gupshup && npm install
-  $ AUDIENCE="http://localhost:5000" node app.js
-  $ firefox http://localhost:5000
 </pre>
