@@ -82,7 +82,6 @@ function acceptCall(offer) {
 
     var pc = new mozRTCPeerConnection();
     pc.addStream(vs);
-    pc.addStream(as);
 
     pc.onaddstream = function(obj) {
       log("Got onaddstream of type " + obj.type);
@@ -128,7 +127,6 @@ function initiateCall(user) {
 
     var pc = new mozRTCPeerConnection();
     pc.addStream(vs);
-    pc.addStream(as);
 
     pc.onaddstream = function(obj) {
       log("Got onaddstream of type " + obj.type);
@@ -168,12 +166,10 @@ function endCall() {
   document.getElementById("main").style.display = "block";
 
   document.getElementById("localvideo").pause();
-  document.getElementById("localaudio").pause();
   document.getElementById("remotevideo").pause();
   document.getElementById("remoteaudio").pause();
 
   document.getElementById("localvideo").src = null;
-  document.getElementById("localaudio").src = null;
   document.getElementById("remotevideo").src = null;
   document.getElementById("remoteaudio").src = null;
 
