@@ -84,8 +84,14 @@ function acceptCall(offer) {
     pc.addStream(vs);
 
     pc.onaddstream = function(obj) {
-      document.getElementById("remotevideo").mozSrcObject = obj.stream;
-      document.getElementById("remotevideo").play();
+      log("Got onaddstream of type " + obj.type);
+      if (obj.type == "video") {
+        document.getElementById("remotevideo").mozSrcObject = obj.stream;
+        document.getElementById("remotevideo").play();
+      } else {
+        document.getElementById("remoteaudio").mozSrcObject = obj.stream;
+        document.getElementById("remoteaudio").play();
+      }
       document.getElementById("dialing").style.display = "none";
       document.getElementById("hangup").style.display = "block";
     };
@@ -124,8 +130,13 @@ function initiateCall(user) {
 
     pc.onaddstream = function(obj) {
       log("Got onaddstream of type " + obj.type);
-      document.getElementById("remotevideo").mozSrcObject = obj.stream;
-      document.getElementById("remotevideo").play();
+      if (obj.type == "video") {
+        document.getElementById("remotevideo").mozSrcObject = obj.stream;
+        document.getElementById("remotevideo").play();
+      } else {
+        document.getElementById("remoteaudio").mozSrcObject = obj.stream;
+        document.getElementById("remoteaudio").play();
+      }
       document.getElementById("dialing").style.display = "none";
       document.getElementById("hangup").style.display = "block";
     };
