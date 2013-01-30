@@ -79,7 +79,7 @@ function acceptCall(offer) {
   navigator.mozGetUserMedia({video:true, audio:true}, function(stream) {
     document.getElementById("localvideo").mozSrcObject = stream;
     document.getElementById("localvideo").play();
-    document.getElementById("localvideo").mute();      
+//    document.getElementById("localvideo").mute();      
 
     var pc = new mozRTCPeerConnection();
     pc.addStream(stream);
@@ -119,7 +119,7 @@ function initiateCall(user) {
   navigator.mozGetUserMedia({video:true, audio:true}, function(stream) {
     document.getElementById("localvideo").mozSrcObject = stream;
     document.getElementById("localvideo").play();
-    document.getElementById("localvideo").mute();      
+//    document.getElementById("localvideo").mute();      
 
     var pc = new mozRTCPeerConnection();
     pc.addStream(stream);
