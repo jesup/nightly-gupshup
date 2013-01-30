@@ -70,19 +70,30 @@ function removeUser(user) {
   }
 }
 
-// TODO: refactor, this function is almost identical to initiateCall().
-function acceptCall(offer) {
-  log("Incoming call with offer " + offer);
+// Call(user, null) to make a call, Call(null, offer) to answer a call
+function Call(user, offer) {
+  let direction;
+  let from;
+  let to;
+  if (offer) {
+    log("Incoming call with offer " + offer);
+    direction = "answer";
+    to = offer.from;
+    from = offer.to;
+  } else {
+    direction = "offer";
+    from = document.getElementById("user").innerHTML;
+    to = user;
+  }
   document.getElementById("main").style.display = "none";
   document.getElementById("call").style.display = "block";
 
-  navigator.mozGetUserMedia({video:true, audio:true}, function(stream) {
-    document.getElementById("localvideo").mozSrcObject = stream;
+  navigator.mozGetUserMedia({video:true, audio:true}, function(vs) {
+    document.getElementById("localvideo").mozSrcObject = vs;
     document.getElementById("localvideo").play();
-    document.getElementById("localvideo").mute();      
 
     var pc = new mozRTCPeerConnection();
-    pc.addStream(stream);
+    pc.addStream(vs);
 
     pc.onaddstream = function(obj) {
       document.getElementById("remotevideo").mozSrcObject = obj.stream;
@@ -99,10 +110,8 @@ function acceptCall(offer) {
           log("created Answer and setLocalDescription " + JSON.stringify(answer));
           peerc = pc;
           jQuery.post(
-            "answer", {
-              to: offer.from,
-              from: offer.to,
-              answer: JSON.stringify(answer)
+            direction, {
+              to: to, from: from, answer: JSON.stringify(answer)
             },
             function() { console.log("Answer sent!"); }
           ).error(error);
@@ -116,13 +125,12 @@ function initiateCall(user) {
   document.getElementById("main").style.display = "none";
   document.getElementById("call").style.display = "block";
 
-  navigator.mozGetUserMedia({video:true, audio:true}, function(stream) {
-    document.getElementById("localvideo").mozSrcObject = stream;
+  navigator.mozGetUserMedia({video:true, audio:true}, function(vs) {
+    document.getElementById("localvideo").mozSrcObject = vs;
     document.getElementById("localvideo").play();
-    document.getElementById("localvideo").mute();      
 
     var pc = new mozRTCPeerConnection();
-    pc.addStream(stream);
+    pc.addStream(vs);
 
     pc.onaddstream = function(obj) {
       log("Got onaddstream of type " + obj.type);
@@ -158,9 +166,11 @@ function endCall() {
 
   document.getElementById("localvideo").pause();
   document.getElementById("remotevideo").pause();
+  document.getElementById("remoteaudio").pause();
 
-  document.getElementById("localvideo").mozSrcObject = null;
-  document.getElementById("remotevideo").mozSrcObject = null;
+  document.getElementById("localvideo").src = null;
+  document.getElementById("remotevideo").src = null;
+  document.getElementById("remoteaudio").src = null;
 
   peerc = null;
 }
