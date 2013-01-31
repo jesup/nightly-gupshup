@@ -1,5 +1,5 @@
 {
-  "name": "mozilla_aurora_webrtc",
+  "name": "nightly-gupshup",
   "description": "A WebRTC demo",
   "version": "0.0.1",
   "engines": {

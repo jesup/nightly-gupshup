@@ -153,6 +153,7 @@ function initiateCall(user) {
 
 function endCall() {
   log("Ending call");
+  pc.close();
   document.getElementById("call").style.display = "none";
   document.getElementById("main").style.display = "block";
 
