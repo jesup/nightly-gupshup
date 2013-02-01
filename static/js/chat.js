@@ -156,6 +156,7 @@ function endCall() {
   document.getElementById("call").style.display = "none";
   document.getElementById("main").style.display = "block";
 
+  document.getElementById("localvideo").mozSrcObject.stop();
   document.getElementById("localvideo").mozSrcObject = null;
   document.getElementById("remotevideo").mozSrcObject = null;
 
