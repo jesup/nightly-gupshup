@@ -162,7 +162,7 @@ function endCall() {
   document.getElementById("localvideo").pause();
   document.getElementById("remotevideo").pause();
 
-  pc = null;
+  peerc.close();
   peerc = null;
 }
 
