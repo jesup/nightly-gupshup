@@ -160,9 +160,6 @@ function endCall() {
   document.getElementById("localvideo").mozSrcObject = null;
   document.getElementById("remotevideo").mozSrcObject = null;
 
-  document.getElementById("localvideo").pause();
-  document.getElementById("remotevideo").pause();
-
   peerc.close();
   peerc = null;
 }
