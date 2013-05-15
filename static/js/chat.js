@@ -39,7 +39,7 @@ source.addEventListener("offer", function(e) {
 
 source.addEventListener("answer", function(e) {
   var answer = JSON.parse(e.data);
-  peerc.setRemoteDescription(JSON.parse(answer.answer), function() {
+  peerc.setRemoteDescription(new mozRTCSessionDescription(JSON.parse(answer.answer)), function() {
     console.log("Call established!");
   }, error);
 }, false);
@@ -91,7 +91,7 @@ function acceptCall(offer) {
       document.getElementById("hangup").style.display = "block";
     };
 
-    pc.setRemoteDescription(JSON.parse(offer.offer), function() {
+    pc.setRemoteDescription(new mozRTCSessionDescription(JSON.parse(offer.offer)), function() {
       log("setRemoteDescription, creating answer");
       pc.createAnswer(function(answer) {
         pc.setLocalDescription(answer, function() {
