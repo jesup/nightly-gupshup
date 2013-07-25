@@ -39,19 +39,17 @@
           <img src="img/loading.gif"/>
         </div>
         <div id="login-box" style="display:none;">
-          <p>
             <% if (!offline) { %>
               <a href="#" onclick="navigator.id.request();">
                 <img src="img/sign-in.png"/>
               </a>
             <% } else { %>
               <div class="input-append">
-                <input class="span2" id="email"type="text">
+                <input class="span2" id="email" type="text">
                 <button class="btn" type="button"
                 onclick="doLogin(document.getElementById('email').value);">Sign in</button>
               </div>
             <% } %>
-          </p>
         </div>
       </div>
 
