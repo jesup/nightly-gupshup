@@ -50,6 +50,15 @@ function log(info) {
 }
 
 function appendUser(user) {
+  // If user already exists, ignore it
+  var index = users.indexOf(user);
+  if (index > -1)
+    return;
+
+  users.push(user);
+  console.log("appendUser: user = " + user + "users.length = " + users.length);
+  
+
   var d = document.createElement("div");
   d.setAttribute("id", btoa(user));
 
@@ -64,6 +73,13 @@ function appendUser(user) {
 }
 
 function removeUser(user) {
+  // If user already exists, ignore it
+  var index = users.indexOf(user);
+  if (index == -1)
+    return;
+
+  users.splice(index, 1)
+
   var d = document.getElementById(btoa(user));
   if (d) {
     document.getElementById("users").removeChild(d);
@@ -172,3 +188,6 @@ function error(e) {
   }
   endCall();
 }
+
+var users = [];
+users.push(document.getElementById("user").innerHTML);
